@@ -23,7 +23,7 @@ function login() {
   })
     .then(res => res.json())
     .then(res => {
-      if (res.sucess) {
+      if (res.sucess == true) {
         location.href = "/";
       } else {
         alert(res.msg);

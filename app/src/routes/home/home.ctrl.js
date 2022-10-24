@@ -1,7 +1,9 @@
 "use strict";
 
 const { createNullProtoObjWherePossible } = require("ejs/lib/utils");
+const User = require("../../models/User");
 
+// 아이디비번 임포트
 const UserStorage = require("../../models/UserStorage");
 
 // 클라이언트가 get요청으로 접속 하면 해당 페이지를 렌더링
@@ -20,22 +22,8 @@ const output = {
 // 로그인 수행 코드
 const process = {
   login: (req, res) => {
-    const id = req.body.id;
-    const psword = req.body.psword;
-
-    const users = UserStorage.getUsers("id", "psword");
-
-    const response = {};
-
-    if (users.id.includes(id)) {
-      const idx = users.id.indexOf(id);
-      if (users.psword[idx] === psword) {
-        response.sucess = true;
-        return res.json(response);
-      }
-    }
-    response.sucess = false;
-    response.msg = "로그인에 실패햐였습니다.";
+    const user = new User(req.body);
+    const response = user.login();
     return res.json(response);
   },
 };
